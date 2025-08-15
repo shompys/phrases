@@ -1,18 +1,11 @@
-import "./App.css";
+import { Presentational } from "./components/Presentational";
+import { QueryClientProvider } from "./libs/QueryClientProvider";
 
 function App() {
   return (
-    <div>
-      <button
-        onClick={() =>
-          fetch("/api")
-            .then((res) => res.json())
-            .then((data) => console.log(data))
-        }
-      >
-        Click me
-      </button>
-    </div>
+    <QueryClientProvider>
+      <Presentational />
+    </QueryClientProvider>
   );
 }
 
