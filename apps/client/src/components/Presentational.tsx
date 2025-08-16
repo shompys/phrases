@@ -41,7 +41,7 @@ export const Presentational = () => {
           className="cursor-pointer w-fit"
           onClick={() => createSeed()}
         >
-          Generar 30 Frases Mockeadas (elimina las existentes)
+          Generar 70 Frases Mockeadas (elimina las existentes)
         </Button>
       </div>
       <PhrasesCard cards={data?.data || []} isLoading={isLoading}>
