@@ -8,6 +8,7 @@ export type Phrase = {
 };
 
 export type GetPhrasesFilters = Partial<{
+  phrase: string;
   pageNumber: number;
   limit: number;
 }>;

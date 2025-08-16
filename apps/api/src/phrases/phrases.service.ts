@@ -23,9 +23,10 @@ export class PhrasesService {
     return phrase;
   }
 
-  async findByPage(
+  async findByFilters(
     pageNumber: number,
     limit: number,
+    phrase?: string,
   ): Promise<Pagination<Phrase[]>> {
     if (limit <= 0) {
       throw new BadRequestException('limit must be greater than 0');
@@ -33,8 +34,11 @@ export class PhrasesService {
 
     const skip = (pageNumber - 1) * limit;
 
-    const phrases = await this.phraseModel.find().skip(skip).limit(limit);
-    const totalCount = await this.phraseModel.countDocuments();
+    const filter = phrase ? { phrase: { $regex: phrase, $options: 'i' } } : {};
+
+    const phrases = await this.phraseModel.find(filter).skip(skip).limit(limit);
+
+    const totalCount = await this.phraseModel.countDocuments(filter);
 
     const totalPages = Math.ceil(totalCount / limit);
 

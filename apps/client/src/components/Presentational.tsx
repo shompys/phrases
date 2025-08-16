@@ -1,54 +1,46 @@
-import {
-  createPhrase,
-  deletePhrase,
-  getPhrases,
-  updatePhrase,
-} from "@/services/phrases";
 import { useGetPhrases } from "@/services/phrases/usePhrases";
+import { useState } from "react";
+import { SearchField } from "./SearchField";
+import { PhrasesCard } from "./PhrasesCard";
+import { Paginator } from "./Paginator";
 
 export const Presentational = () => {
-  const { data, isLoading } = useGetPhrases();
-  return (
-    <div>
-      <button
-        onClick={async () => {
-          const response = await getPhrases({
-            limit: 1,
-            pageNumber: 1,
-          });
-          console.log(response);
-        }}
-      >
-        getPhrases
-      </button>
-      <button
-        onClick={async () => {
-          const response = await updatePhrase({
-            id: "689f6d9c3d9effc819c0b002",
-            phrase: "nueva frase actualizada desde la web",
-          });
-          console.log(response);
-        }}
-      >
-        updatePhrase
-      </button>
+  const [currentPage, setCurrentPage] = useState(1);
 
-      <button
-        onClick={async () => {
-          const response = await createPhrase("frases y frases y mas frases");
-          console.log(response);
-        }}
-      >
-        createPhrase
-      </button>
-      <button
-        onClick={async () => {
-          const response = await deletePhrase("689f6d9c3d9effc819c0b002");
-          console.log(response);
-        }}
-      >
-        deletePhrase
-      </button>
+  const [search, setSearch] = useState("");
+
+  const handleSearch = (search: string) => {
+    setSearch(search);
+    setCurrentPage(1);
+  };
+
+  const { data, isLoading } = useGetPhrases({
+    phrase: search,
+    pageNumber: currentPage,
+    limit: 14,
+  });
+
+  return (
+    <div className="max-w-5xl mx-auto flex flex-col min-h-screen pt-5 gap-y-5">
+      <div className="flex items-center flex-col gap-y-3 lg:flex-row">
+        <SearchField
+          search={search}
+          handleSearch={handleSearch}
+          className="lg:w-1/2"
+        />
+        <p className="lg:ml-auto">Total de frases: {data?.totalItems}</p>
+      </div>
+      <PhrasesCard cards={data?.data || []} isLoading={isLoading}>
+        <PhrasesCard.Cards />
+      </PhrasesCard>
+      <Paginator
+        className="mt-auto"
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        totalPages={data?.totalPages || 0}
+        prevPage={data?.prevPage || 0}
+        nextPage={data?.nextPage || 0}
+      />
     </div>
   );
 };

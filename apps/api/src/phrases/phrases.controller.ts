@@ -24,12 +24,13 @@ export class PhrasesController {
   }
 
   @Get()
-  findByPage(
+  findByFilters(
     @Query('pageNumber', new DefaultValuePipe(1), ParseIntPipe)
     pageNumber: number,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
+    @Query('phrase') phrase?: string,
   ) {
-    return this.phrasesService.findByPage(pageNumber, limit);
+    return this.phrasesService.findByFilters(pageNumber, limit, phrase);
   }
 
   @Get(':id')

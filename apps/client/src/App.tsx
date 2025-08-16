@@ -1,5 +1,5 @@
 import { Presentational } from "./components/Presentational";
-import { QueryClientProvider } from "./libs/QueryClientProvider";
+import { QueryClientProvider } from "./lib/QueryClientProvider";
 
 function App() {
   return (

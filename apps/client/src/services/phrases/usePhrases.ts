@@ -1,9 +1,10 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { createPhrase, getPhrases } from ".";
+import { createPhrase, deletePhrase, getPhrases, updatePhrase } from ".";
 import type { GetPhrasesFilters } from "./interfaces";
-import { queryClient } from "../../libs/QueryClientProvider";
+import { queryClient } from "../../lib/QueryClientProvider";
 
 const key = "phrases";
+
 export const useGetPhrases = (filters?: GetPhrasesFilters) => {
   const filterList = Object.entries(filters ?? {}).filter(
     ([_, value]) => value !== undefined
@@ -13,14 +14,32 @@ export const useGetPhrases = (filters?: GetPhrasesFilters) => {
   return useQuery({
     queryKey: filterList.length > 0 ? [key, filtersMap] : [key],
     queryFn: () => getPhrases(filtersMap),
+    staleTime: Number.POSITIVE_INFINITY,
+    retry: false,
   });
+};
+
+const invalidateQueries = () => {
+  queryClient.invalidateQueries({ queryKey: [key] });
 };
 
 export const useCreatePhrase = () => {
   return useMutation({
-    mutationFn: (phrase: string) => createPhrase(phrase),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [key] });
-    },
+    mutationFn: createPhrase,
+    onSuccess: invalidateQueries,
+  });
+};
+
+export const useDeletePhrase = () => {
+  return useMutation({
+    mutationFn: deletePhrase,
+    onSuccess: invalidateQueries,
+  });
+};
+
+export const useUpdatePhrase = () => {
+  return useMutation({
+    mutationFn: updatePhrase,
+    onSuccess: invalidateQueries,
   });
 };
