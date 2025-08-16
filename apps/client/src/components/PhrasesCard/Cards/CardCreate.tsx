@@ -30,6 +30,7 @@ export const CardCreate: FC<CreateCardProps> = ({ className }) => {
     try {
       await createPhrase(phraseState);
       setCurrentPage(1);
+      setPhraseState("");
       setIsOpen(false);
     } catch (e) {
       console.error(e);
