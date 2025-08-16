@@ -114,6 +114,10 @@ pnpm run build
 pnpm run start
 ```
 
+Esto iniciará todo el proyecto servido desde el backend sirviendo el frontend estático y buildeado en:
+
+http://localhost:3000
+
 ## Estructura del Proyecto
 
 ```

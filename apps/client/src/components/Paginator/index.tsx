@@ -38,11 +38,11 @@ export const Paginator: FC<PaginatorProps> = ({
     const half = Math.floor(maxVisiblePages / 2); //cantidad a mostrar desde el actual atras y adelante
     let start = Math.max(currentPage - half, 1);
     let end = Math.min(start + maxVisiblePages - 1, totalPages);
-    console.log("end: ", end);
+
     if (end === totalPages) {
       start = Math.max(end - maxVisiblePages + 1, 1);
     }
-    console.log("start: ", start);
+
     return Array.from({ length: end - start + 1 }, (_, i) => start + i);
   };
 
