@@ -15,5 +15,6 @@ import { MongooseModule } from '@nestjs/mongoose';
       },
     ]),
   ],
+  exports: [PhrasesService],
 })
 export class PhrasesModule {}

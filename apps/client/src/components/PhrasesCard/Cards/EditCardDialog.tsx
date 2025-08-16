@@ -13,6 +13,7 @@ import { useState, type FC } from "react";
 import { Card } from "./Card";
 import { useUpdatePhrase } from "@/services/phrases/usePhrases";
 import { Button } from "@/components/ui/button";
+import { useCurrentPageContext } from "@/ContextProviders/CurrentPageProvider";
 
 type EditCardDialogProps = {
   className?: string;
@@ -25,6 +26,7 @@ export const EditCardDialog: FC<EditCardDialogProps> = ({
   id,
   phrase,
 }) => {
+  const { setCurrentPage } = useCurrentPageContext();
   const [isOpen, setIsOpen] = useState(false);
   const [phraseState, setPhraseState] = useState(phrase);
 
@@ -35,6 +37,7 @@ export const EditCardDialog: FC<EditCardDialogProps> = ({
         id,
         phrase: phraseState,
       });
+      setCurrentPage(1);
       setIsOpen(false);
     } catch (e) {
       console.error(e);

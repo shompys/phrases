@@ -36,7 +36,11 @@ export class PhrasesService {
 
     const filter = phrase ? { phrase: { $regex: phrase, $options: 'i' } } : {};
 
-    const phrases = await this.phraseModel.find(filter).skip(skip).limit(limit);
+    const phrases = await this.phraseModel
+      .find(filter)
+      .sort({ updatedAt: -1 })
+      .skip(skip)
+      .limit(limit);
 
     const totalCount = await this.phraseModel.countDocuments(filter);
 
@@ -80,5 +84,16 @@ export class PhrasesService {
     }
 
     return phraseDeleted;
+  }
+
+  async createMany(phrases: CreatePhraseDto[]) {
+    const phrasesCreated = await this.phraseModel.insertMany(phrases);
+    return phrasesCreated;
+  }
+
+  async deleteAll() {
+    const deleted = await this.phraseModel.deleteMany();
+
+    return { deletedCount: deleted.deletedCount };
   }
 }

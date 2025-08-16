@@ -1,11 +1,14 @@
 import { Presentational } from "./components/Presentational";
+import { CurrentPageProvider } from "./ContextProviders/CurrentPageProvider";
 import { QueryClientProvider } from "./lib/QueryClientProvider";
 
 function App() {
   return (
-    <QueryClientProvider>
-      <Presentational />
-    </QueryClientProvider>
+    <CurrentPageProvider>
+      <QueryClientProvider>
+        <Presentational />
+      </QueryClientProvider>
+    </CurrentPageProvider>
   );
 }
 

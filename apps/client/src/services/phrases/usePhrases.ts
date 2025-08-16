@@ -3,7 +3,7 @@ import { createPhrase, deletePhrase, getPhrases, updatePhrase } from ".";
 import type { GetPhrasesFilters } from "./interfaces";
 import { queryClient } from "../../lib/QueryClientProvider";
 
-const key = "phrases";
+export const keyPhrases = "phrases";
 
 export const useGetPhrases = (filters?: GetPhrasesFilters) => {
   const filterList = Object.entries(filters ?? {}).filter(
@@ -12,7 +12,7 @@ export const useGetPhrases = (filters?: GetPhrasesFilters) => {
   const filtersMap = Object.fromEntries(filterList);
 
   return useQuery({
-    queryKey: filterList.length > 0 ? [key, filtersMap] : [key],
+    queryKey: filterList.length > 0 ? [keyPhrases, filtersMap] : [keyPhrases],
     queryFn: () => getPhrases(filtersMap),
     staleTime: Number.POSITIVE_INFINITY,
     retry: false,
@@ -20,7 +20,7 @@ export const useGetPhrases = (filters?: GetPhrasesFilters) => {
 };
 
 const invalidateQueries = () => {
-  queryClient.invalidateQueries({ queryKey: [key] });
+  queryClient.invalidateQueries({ queryKey: [keyPhrases] });
 };
 
 export const useCreatePhrase = () => {

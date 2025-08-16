@@ -47,4 +47,13 @@ export class PhrasesController {
   remove(@Param('id') id: string) {
     return this.phrasesService.remove(id);
   }
+  @Delete()
+  deleteAll() {
+    return this.phrasesService.deleteAll();
+  }
+
+  @Post('bulk')
+  createMany(@Body() phrases: CreatePhraseDto[]) {
+    return this.phrasesService.createMany(phrases);
+  }
 }

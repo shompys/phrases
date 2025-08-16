@@ -13,6 +13,7 @@ import { useState, type FC } from "react";
 import { Card } from "./Card";
 import { useCreatePhrase } from "@/services/phrases/usePhrases";
 import { Button } from "@/components/ui/button";
+import { useCurrentPageContext } from "@/ContextProviders/CurrentPageProvider";
 
 type CreateCardProps = {
   className?: string;
@@ -21,11 +22,14 @@ type CreateCardProps = {
 export const CardCreate: FC<CreateCardProps> = ({ className }) => {
   const [phraseState, setPhraseState] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const { setCurrentPage } = useCurrentPageContext();
 
   const { mutateAsync: createPhrase } = useCreatePhrase();
+
   const handleConfirm = async () => {
     try {
       await createPhrase(phraseState);
+      setCurrentPage(1);
       setIsOpen(false);
     } catch (e) {
       console.error(e);

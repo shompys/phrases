@@ -1,4 +1,5 @@
 import { AlertDialog } from "@/components/AlertDialog";
+import { useCurrentPageContext } from "@/ContextProviders/CurrentPageProvider";
 import { cn } from "@/lib/utils";
 import { useDeletePhrase } from "@/services/phrases/usePhrases";
 import { useState, type FC } from "react";
@@ -9,11 +10,13 @@ type TrashButtonProps = {
 };
 
 export const TrashButton: FC<TrashButtonProps> = ({ id, className }) => {
+  const { setCurrentPage } = useCurrentPageContext();
   const { mutateAsync: deletePhrase } = useDeletePhrase();
   const [isOpen, setIsOpen] = useState(false);
   const handleDelete = async () => {
     try {
       await deletePhrase(id);
+      setCurrentPage(1);
       setIsOpen(false);
     } catch (e) {
       console.error(e);

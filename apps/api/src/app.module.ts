@@ -4,6 +4,7 @@ import { join } from 'node:path';
 import { PhrasesModule } from './phrases/phrases.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
+import { SeedModule } from './seed/seed.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { ConfigModule } from '@nestjs/config';
     }),
     MongooseModule.forRoot(process.env.MONGODB_URI ?? ''),
     PhrasesModule,
+    SeedModule,
   ],
   controllers: [],
   providers: [],
