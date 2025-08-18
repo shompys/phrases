@@ -138,5 +138,4 @@ phrases/
 - ✅ Interfaz responsive
 - ✅ Validación de datos
 - ✅ Seeding de datos
-- ✅ Modo oscuro (Tailwind)
-- ✅ Ordenamiento por fecha de actualización
+- ✅ Ordenamiento por fecha de actualización por default
