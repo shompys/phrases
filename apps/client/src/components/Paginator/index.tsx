@@ -7,13 +7,12 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { useCurrentPageContext } from "@/ContextProviders/CurrentPageProvider";
 import { cn } from "@/lib/utils";
 
 import type { FC } from "react";
 
 type PaginatorProps = {
-  currentPage: number;
-  setCurrentPage: (page: number) => void;
   totalPages: number;
   prevPage: number;
   nextPage: number;
@@ -21,13 +20,12 @@ type PaginatorProps = {
 };
 
 export const Paginator: FC<PaginatorProps> = ({
-  currentPage,
-  setCurrentPage,
   totalPages,
   prevPage,
   nextPage,
   className,
 }) => {
+  const { currentPage, setCurrentPage } = useCurrentPageContext();
   const maxVisiblePages = 4;
 
   const getVisiblePages = () => {
@@ -39,11 +37,12 @@ export const Paginator: FC<PaginatorProps> = ({
     let start = Math.max(currentPage - half, 1);
     let end = Math.min(start + maxVisiblePages - 1, totalPages);
 
-    if (end === totalPages) {
+    if (currentPage === totalPages) {
       start = Math.max(end - maxVisiblePages + 1, 1);
+      end = totalPages;
     }
 
-    return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+    return Array.from({ length: maxVisiblePages }, (_, i) => start + i);
   };
 
   const visiblePages = getVisiblePages();

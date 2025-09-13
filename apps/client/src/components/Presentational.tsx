@@ -49,8 +49,6 @@ export const Presentational = () => {
       </PhrasesCard>
       <Paginator
         className="mt-auto"
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
         totalPages={data?.totalPages || 0}
         prevPage={data?.prevPage || 0}
         nextPage={data?.nextPage || 0}
